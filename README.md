@@ -14,20 +14,21 @@ In order to add logger to your project simply add this dependency to your classp
 <dependency>
     <groupId>com.github.rozidan</groupId>
     <artifactId>spring-boot-starter-levelog</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
 ```groovy
-compile 'com.github.rozidan:spring-boot-starter-levelog:1.0.0-SNAPSHOT'
+compile 'com.github.rozidan:spring-boot-starter-levelog:1.1.0-SNAPSHOT'
 ```
 
 ## Change the log level
 
-Choose the API you what levelog to use it service:
+Choose the API you what levelog to use:
 
 ```properties
-levelog.apis = REST, KAFKA
+levelog.rest.enabled = false
+levelog.kafka.enabled = false
 levelog.rest.path = /levelog
 levelog.kafka.topic = levelog.t
 levelog.kafka.container = levelogKafkaContainer
@@ -35,16 +36,16 @@ levelog.kafka.container = levelogKafkaContainer
 
 ##### KAFKA
 * Default topic name is 'levelog.t'.
-* Message format to be use is `LevelogMessage`, which has two properties:
+* Message format to be use is `Message`, which has two properties:
     * Log level: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF.
     * Logger name: a string represent the logger name.
-* Make sure to register a `KafkaTemplate` and `KafkaListenerContainerFactory` with `LevelogMessage` as value.
+* Make sure to register a `KafkaTemplate` and `KafkaListenerContainerFactory` with `Message` as value.
 	* The `KafkaListenerContainerFactory` should be named "levelogKafkaContainer"
 	* Use `LevelogMessageJsonDeserializer` as deserializer class.
 
 ##### REST
 * Default request mapping is '/levelog'.
-* Request parameter to be use is `LevelogMessage`.
+* Request parameter to be use is `Message`.
 
 ## License
 
