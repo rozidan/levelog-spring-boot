@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "defaultValue": "levelogKafkaContainer",
+      "name": "levelog.kafka.container",
+      "description": "kafka container bean name",
+      "type": "java.lang.String"
+    },
+    {
+      "defaultValue": false,
+      "name": "levelog.kafka.enabled",
+      "description": "Enable levelog KAFKA support",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "defaultValue": "levelog.t",
+      "name": "levelog.kafka.topic",
+      "description": "Kafka topic name to use",
+      "type": "java.lang.String"
+    },
+    {
+      "defaultValue": false,
+      "name": "levelog.rest.enabled",
+      "description": "Enable levelog REST support",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "defaultValue": "/levelog",
+      "name": "levelog.rest.mapping",
+      "description": "Rest request mapping to use",
+      "type": "java.lang.String"
+    }
+  ]
+}
