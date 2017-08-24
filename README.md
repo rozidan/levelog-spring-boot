@@ -13,13 +13,13 @@ In order to add logger to your project simply add this dependency to your classp
 ```xml
 <dependency>
     <groupId>com.github.rozidan</groupId>
-    <artifactId>spring-boot-starter-levelog</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <artifactId>levelog-spring-boot-starter</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
 ```groovy
-compile 'com.github.rozidan:spring-boot-starter-levelog:1.1.0-SNAPSHOT'
+compile 'com.github.rozidan:levelog-spring-boot-starter:1.0.0-SNAPSHOT'
 ```
 
 ## Change the log level
