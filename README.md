@@ -1,6 +1,8 @@
 # Spring Boot Levelog Starter
-
 > A Spring Boot starter that let you set the log level for your application at runtime.
+
+[![Build Status](https://travis-ci.org/rozidan/levelog-spring-boot-starter.svg?branch=master)](https://travis-ci.org/rozidan/levelog-spring-boot-starter)
+[![Coverage Status](https://coveralls.io/repos/github/rozidan/levelog-spring-boot-starter/badge.svg?branch=master)](https://coveralls.io/github/rozidan/levelog-spring-boot-starter?branch=master)
 
 ## Features
 Register the Levelog to your Spring Boot application and allow it to automatically add a
