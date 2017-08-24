@@ -15,28 +15,28 @@
  */
 package com.github.rozidan.springboot.levelog;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CountDownLatch;
+
 @Component
 public class LevelogKafka {
 
-   public final CountDownLatch countDownLatch = new CountDownLatch(1);
-   private final LevelogProvider levelogProvider;
+    public final CountDownLatch countDownLatch = new CountDownLatch(1);
+    private final LevelogProvider levelogProvider;
 
-   @Autowired
-   public LevelogKafka(LevelogProvider levelogProvider) {
-      this.levelogProvider = levelogProvider;
-   }
+    @Autowired
+    public LevelogKafka(LevelogProvider levelogProvider) {
+        this.levelogProvider = levelogProvider;
+    }
 
-   @KafkaListener(topics = "${levelog.kafka.topic:levelog.t}",
-                  containerFactory = "${levelog.kafka.container:levelogKafkaContainer}")
-   public void changeLogLevel(Message message) {
-      levelogProvider.changeLogLevel(message);
-      countDownLatch.countDown();
-   }
+    @KafkaListener(topics = "${levelog.kafka.topic:levelog.t}",
+            containerFactory = "${levelog.kafka.container:levelogKafkaContainer}")
+    public void changeLogLevel(Message message) {
+        levelogProvider.changeLogLevel(message);
+        countDownLatch.countDown();
+    }
 
 }

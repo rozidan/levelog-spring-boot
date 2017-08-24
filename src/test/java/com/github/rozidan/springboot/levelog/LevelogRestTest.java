@@ -16,7 +16,6 @@
 package com.github.rozidan.springboot.levelog;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,80 +32,77 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@TestPropertySource(properties = { "levelog.rest.path=/levelog", "levelog.rest.enabled=true" })
+@TestPropertySource(properties = {"levelog.rest.path=/levelog", "levelog.rest.enabled=true"})
 @SpringBootTest(classes = LevelogRestTest.Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class LevelogRestTest {
 
-   private static final String REQUEST_MAPPING = "/levelog";
+    private static final String REQUEST_MAPPING = "/levelog";
 
-   @Autowired(required = false)
-   private LevelogRest levelogRest;
-   @Autowired
-   private LevelogProvider levelogProvider;
-   @Autowired
-   private TestRestTemplate restTemplate;
+    @Autowired(required = false)
+    private LevelogRest levelogRest;
+    @Autowired
+    private LevelogProvider levelogProvider;
+    @Autowired
+    private TestRestTemplate restTemplate;
 
-   @Test
-   public void restTest() {
-      assertNotNull(levelogRest);
+    @Test
+    public void restTest() {
+        assertNotNull(levelogRest);
 
-      levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
-      assertTrue(log.isInfoEnabled());
+        levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
+        assertTrue(log.isInfoEnabled());
 
-      ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
-            new HttpEntity<>(Message.builder()
-                  .logLevel(LogLevel.ERROR)
-                  .loggerName(LevelogRestTest.class.getName())
-                  .build()),
-            String.class);
+        ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
+                new HttpEntity<>(Message.builder()
+                        .logLevel(LogLevel.ERROR)
+                        .loggerName(LevelogRestTest.class.getName())
+                        .build()),
+                String.class);
 
-      assertEquals(HttpStatus.OK, exchange.getStatusCode());
-      assertFalse(log.isInfoEnabled());
-      assertTrue(log.isErrorEnabled());
-   }
+        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+        assertFalse(log.isInfoEnabled());
+        assertTrue(log.isErrorEnabled());
+    }
 
-   @Test
-   public void restValidationTest() {
-      levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
-      assertTrue(log.isInfoEnabled());
+    @Test
+    public void restValidationTest() {
+        levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
+        assertTrue(log.isInfoEnabled());
 
-      ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
-            new HttpEntity<>(Message.builder()
-                  .logLevel(LogLevel.ERROR)
-                  .loggerName(null)
-                  .build()),
-            String.class);
+        ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
+                new HttpEntity<>(Message.builder()
+                        .logLevel(LogLevel.ERROR)
+                        .loggerName(null)
+                        .build()),
+                String.class);
 
-      assertEquals(HttpStatus.BAD_REQUEST, exchange.getStatusCode());
-      assertTrue(log.isInfoEnabled());
-   }
+        assertEquals(HttpStatus.BAD_REQUEST, exchange.getStatusCode());
+        assertTrue(log.isInfoEnabled());
+    }
 
-   @Test
-   public void restValidationEmptyTest() {
-      levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
-      assertTrue(log.isInfoEnabled());
+    @Test
+    public void restValidationEmptyTest() {
+        levelogProvider.changeLogLevel(LogLevel.INFO, LevelogRestTest.class.getName());
+        assertTrue(log.isInfoEnabled());
 
-      ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
-            new HttpEntity<>(Message.builder()
-                  .logLevel(LogLevel.ERROR)
-                  .loggerName("")
-                  .build()),
-            String.class);
+        ResponseEntity<String> exchange = restTemplate.exchange(REQUEST_MAPPING, HttpMethod.POST,
+                new HttpEntity<>(Message.builder()
+                        .logLevel(LogLevel.ERROR)
+                        .loggerName("")
+                        .build()),
+                String.class);
 
-      assertEquals(HttpStatus.BAD_REQUEST, exchange.getStatusCode());
-      assertTrue(log.isInfoEnabled());
-   }
+        assertEquals(HttpStatus.BAD_REQUEST, exchange.getStatusCode());
+        assertTrue(log.isInfoEnabled());
+    }
 
-   @Configuration
-   @EnableAutoConfiguration
-   public static class Application {
+    @Configuration
+    @EnableAutoConfiguration
+    public static class Application {
 
-   }
+    }
 }

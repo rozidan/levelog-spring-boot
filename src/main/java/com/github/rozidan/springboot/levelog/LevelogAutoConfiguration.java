@@ -29,23 +29,23 @@ import org.springframework.kafka.annotation.EnableKafka;
 @Configuration
 public class LevelogAutoConfiguration {
 
-   @Bean
-   @ConditionalOnMissingBean
-   public LevelogProvider levelogProvider() {
-      return new LevelogProvider();
-   }
+    @Bean
+    @ConditionalOnMissingBean
+    public LevelogProvider levelogProvider() {
+        return new LevelogProvider();
+    }
 
-   @ConditionalOnProperty(prefix = "levelog", name = "kafka.enabled", havingValue = "true", matchIfMissing = false)
-   @ConditionalOnBean(annotation = EnableKafka.class)
-   @Configuration
-   @Import(LevelogKafka.class)
-   public static class LevelogKafkaConfiguration {
-   }
+    @ConditionalOnProperty(prefix = "levelog", name = "kafka.enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnBean(annotation = EnableKafka.class)
+    @Configuration
+    @Import(LevelogKafka.class)
+    public static class LevelogKafkaConfiguration {
+    }
 
-   @ConditionalOnProperty(prefix = "levelog", name = "rest.enabled", havingValue = "true", matchIfMissing = false)
-   @Configuration
-   @Import(LevelogRest.class)
-   public static class LevelogRestConfiguration {
+    @ConditionalOnProperty(prefix = "levelog", name = "rest.enabled", havingValue = "true", matchIfMissing = false)
+    @Configuration
+    @Import(LevelogRest.class)
+    public static class LevelogRestConfiguration {
 
-   }
+    }
 }

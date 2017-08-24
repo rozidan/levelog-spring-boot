@@ -16,7 +16,6 @@
 package com.github.rozidan.springboot.levelog;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +31,21 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 public class LevelogProviderTest {
 
-   @Autowired
-   private LevelogProvider levelogProvider;
+    @Autowired
+    private LevelogProvider levelogProvider;
 
-   @Test
-   public void changeLogLevelTest() {
-      assertTrue(log.isInfoEnabled());
-      levelogProvider.changeLogLevel(LogLevel.ERROR, LevelogProviderTest.class.getName());
-      assertFalse(log.isInfoEnabled());
-      assertTrue(log.isErrorEnabled());
-   }
+    @Test
+    public void changeLogLevelTest() {
+        assertTrue(log.isInfoEnabled());
+        levelogProvider.changeLogLevel(LogLevel.ERROR, LevelogProviderTest.class.getName());
+        assertFalse(log.isInfoEnabled());
+        assertTrue(log.isErrorEnabled());
+    }
 
-   @Configuration
-   @Import(LevelogProvider.class)
-   public static class Application {
+    @Configuration
+    @Import(LevelogProvider.class)
+    public static class Application {
 
-   }
+    }
 
 }

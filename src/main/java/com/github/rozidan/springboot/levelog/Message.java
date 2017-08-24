@@ -15,15 +15,14 @@
  */
 package com.github.rozidan.springboot.levelog;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.springframework.boot.logging.LogLevel;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Idan Rozenfeld
@@ -33,10 +32,10 @@ import org.springframework.boot.logging.LogLevel;
 @NoArgsConstructor
 @Builder
 public class Message {
-   @NotNull(message = "Log level must not be null")
-   private LogLevel logLevel;
+    @NotNull(message = "Log level must not be null")
+    private LogLevel logLevel;
 
-   @NotNull(message = "Logger name must not be null")
-   @Size(min = 1, message = "Logger name must not be empty")
-   private String loggerName;
+    @NotNull(message = "Logger name must not be null")
+    @Size(min = 1, message = "Logger name must not be empty")
+    private String loggerName;
 }

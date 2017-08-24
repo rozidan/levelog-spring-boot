@@ -15,13 +15,13 @@
  */
 package com.github.rozidan.springboot.levelog;
 
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.ConstraintViolationException;
 
 /**
  * Created by Idan Rozenfeld
@@ -29,25 +29,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LevelogRest {
 
-   private final LevelogProvider levelogProvider;
+    private final LevelogProvider levelogProvider;
 
-   @Autowired
-   public LevelogRest(LevelogProvider levelogProvider) {
-      this.levelogProvider = levelogProvider;
-   }
+    @Autowired
+    public LevelogRest(LevelogProvider levelogProvider) {
+        this.levelogProvider = levelogProvider;
+    }
 
-   @PostMapping("${levelog.rest.mapping:/levelog}")
-   public ResponseEntity<String> changeLogLevel(@RequestBody Message message) {
-      try {
-         levelogProvider.changeLogLevel(message);
-      } catch (ConstraintViolationException ex) {
-         StringBuilder errStr = new StringBuilder();
-         ex.getConstraintViolations().stream().forEach((v) -> errStr.append(v.getMessage()).append("\n"));
-         return ResponseEntity.badRequest().body(errStr.toString());
-      }
+    @PostMapping("${levelog.rest.mapping:/levelog}")
+    public ResponseEntity<String> changeLogLevel(@RequestBody Message message) {
+        try {
+            levelogProvider.changeLogLevel(message);
+        } catch (ConstraintViolationException ex) {
+            StringBuilder errStr = new StringBuilder();
+            ex.getConstraintViolations().stream().forEach((v) -> errStr.append(v.getMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(errStr.toString());
+        }
 
-      return ResponseEntity.ok("");
+        return ResponseEntity.ok("");
 
-   }
+    }
 
 }

@@ -15,19 +15,13 @@
  */
 package com.github.rozidan.springboot.levelog;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.stereotype.Service;
+
+import javax.validation.*;
+import java.util.Set;
 
 /**
  * Created by Idan Rozenfeld
@@ -36,30 +30,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class LevelogProvider {
 
-   public void changeLogLevel(Message message) {
-      log.debug(message + "");
-      validateMessage(message);
-      changeLogLevel(message.getLogLevel(), message.getLoggerName());
-      log.info("Log level of '" + message.getLoggerName() + "' is now " + message.getLogLevel());
-   }
+    public void changeLogLevel(Message message) {
+        log.debug(message + "");
+        validateMessage(message);
+        changeLogLevel(message.getLogLevel(), message.getLoggerName());
+        log.info("Log level of '" + message.getLoggerName() + "' is now " + message.getLogLevel());
+    }
 
-   void changeLogLevel(LogLevel logLevel, String loggerName) {
-      LoggingSystem.get(this.getClass().getClassLoader()).setLogLevel(loggerName, logLevel);
-   }
+    void changeLogLevel(LogLevel logLevel, String loggerName) {
+        LoggingSystem.get(this.getClass().getClassLoader()).setLogLevel(loggerName, logLevel);
+    }
 
-   public boolean validateMessage(Message message) {
-      ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-      Validator validator = factory.getValidator();
-      Set<ConstraintViolation<Message>> violations = validator.validate(message);
+    public boolean validateMessage(Message message) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Message>> violations = validator.validate(message);
 
-      for (ConstraintViolation<Message> violation : violations) {
-         log.error(violation.getMessage());
-      }
+        for (ConstraintViolation<Message> violation : violations) {
+            log.error(violation.getMessage());
+        }
 
-      if (!violations.isEmpty()) {
-         throw new ConstraintViolationException("Levelog message is not valid", violations);
-      }
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException("Levelog message is not valid", violations);
+        }
 
-      return violations.isEmpty();
-   }
+        return violations.isEmpty();
+    }
 }
