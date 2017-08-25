@@ -132,10 +132,6 @@ public class LevelogKafkaTest {
         public Map<String, Object> producerConfigs() {
             Map<String, Object> props = new HashMap<>();
             props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
-            props.put(ProducerConfig.RETRIES_CONFIG, 0);
-            props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
-            props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
-            props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
             props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
             props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
             return props;
@@ -150,8 +146,6 @@ public class LevelogKafkaTest {
         public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> levelogKafkaContainer() {
             ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
             factory.setConsumerFactory(consumerFactory());
-            factory.setConcurrency(3);
-            factory.getContainerProperties().setPollTimeout(3000);
             return factory;
         }
 
@@ -162,9 +156,6 @@ public class LevelogKafkaTest {
         public Map<String, Object> consumerConfigs() {
             Map<String, Object> propsMap = new HashMap<>();
             propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
-            propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-            propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "100");
-            propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
             propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
             propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LevelogMessageJsonDeserializer.class);
             propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
