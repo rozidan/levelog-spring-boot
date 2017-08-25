@@ -15,13 +15,26 @@
  */
 package com.github.rozidan.springboot.levelog;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.IntegerDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Idan Rozenfeld
@@ -30,19 +43,44 @@ import org.springframework.kafka.annotation.EnableKafka;
 public class LevelogAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingClass
     public LevelogProvider levelogProvider() {
         return new LevelogProvider();
     }
 
-    @ConditionalOnProperty(prefix = "levelog", name = "kafka.enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "levelog", name = "kafka.enabled", havingValue = "true")
     @ConditionalOnBean(annotation = EnableKafka.class)
     @Configuration
     @Import(LevelogKafka.class)
     public static class LevelogKafkaConfiguration {
+
+        @Value("${levelog.kafka.servers:localhost:9092}")
+        public String broker;
+
+        @ConditionalOnMissingBean
+        @Bean
+        public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> levelogKafkaContainer() {
+            ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
+            factory.setConsumerFactory(consumerFactory());
+            return factory;
+        }
+
+        public ConsumerFactory<String, Message> consumerFactory() {
+            return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+        }
+
+        public Map<String, Object> consumerConfigs() {
+            Map<String, Object> propsMap = new HashMap<>();
+            propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
+            propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
+            propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LevelogMessageJsonDeserializer.class);
+            propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
+            propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+            return propsMap;
+        }
     }
 
-    @ConditionalOnProperty(prefix = "levelog", name = "rest.enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "levelog", name = "rest.enabled", havingValue = "true")
     @Configuration
     @Import(LevelogRest.class)
     public static class LevelogRestConfiguration {

@@ -19,6 +19,12 @@
       "type": "java.lang.String"
     },
     {
+      "defaultValue": "localhost:9092",
+      "name": "levelog.kafka.servers",
+      "description": "A list of host/port pairs to use for establishing the initial connection to the Kafka cluster.",
+      "type": "java.lang.String"
+    },
+    {
       "defaultValue": false,
       "name": "levelog.rest.enabled",
       "description": "Enable levelog REST support",

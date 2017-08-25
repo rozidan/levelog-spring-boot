@@ -25,28 +25,21 @@ compile 'com.github.rozidan:levelog-spring-boot-starter:1.0.0-SNAPSHOT'
 ```
 
 ## Change the log level
-
-Choose the API you what levelog to use:
-
-```properties
-levelog.rest.enabled = false
-levelog.kafka.enabled = false
-levelog.rest.path = /levelog
-levelog.kafka.topic = levelog.t
-levelog.kafka.container = levelogKafkaContainer
-```
-
 ##### KAFKA
-* Default topic name is 'levelog.t'.
+* Enable KAFKA API: `levelog.kafka.enabled = true`.
+* Set the bootstrap servers to be used: `levelog.kafka.servers`.
+* Set the topic name: `levelog.kafka.topic` default is `levelog.t`.
+* Set the container bean name: `levelog.kafka.container` default is `levelogKafkaContainer`.
 * Message format to be use is `Message`, which has two properties:
     * Log level: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF.
     * Logger name: a string represent the logger name.
-* Make sure to register a `KafkaTemplate` and `KafkaListenerContainerFactory` with `Message` as value.
-	* The `KafkaListenerContainerFactory` should be named "levelogKafkaContainer"
-	* Use `LevelogMessageJsonDeserializer` as deserializer class.
+* Make sure to register a `KafkaListenerContainerFactory` with `LevelogMessageJsonDeserializer` as the value deserializer.
+
+
 
 ##### REST
-* Default request mapping is '/levelog'.
+* Enable REST API: `levelog.rest.enabled = true`.
+* Set the request mapping to be used `levelog.rest.path` default is `/levelog`.
 * Request parameter to be use is `Message`.
 
 ## License

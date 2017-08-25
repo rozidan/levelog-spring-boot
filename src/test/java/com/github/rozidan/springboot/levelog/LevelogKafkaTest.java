@@ -48,7 +48,9 @@ import static org.junit.Assert.*;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@TestPropertySource(properties = {"levelog.kafka.topic=levelog.t", "levelog.kafka.enabled=true"})
+@TestPropertySource(properties = {
+        "levelog.kafka.topic=levelog.t",
+        "levelog.kafka.enabled=true"})
 public class LevelogKafkaTest {
 
     private static final String TOPIC = "levelog.t";
