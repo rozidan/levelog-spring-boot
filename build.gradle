@@ -4,9 +4,11 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('io.spring.gradle:propdeps-plugin:0.0.9.RELEASE')
     }
 }
 
@@ -24,6 +26,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'signing'
 apply plugin: 'maven'
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
 
 group = 'com.github.rozidan'
 archivesBaseName = 'levelog-spring-boot-starter'
@@ -45,9 +51,13 @@ dependencies {
     compileOnly('org.springframework.boot:spring-boot-starter-web')
     compileOnly('org.projectlombok:lombok')
 
+    optional('org.springframework.boot:spring-boot-configuration-processor')
+
     testCompile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.kafka:spring-kafka')
     testCompile('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.kafka:spring-kafka-test')
 }
+
+compileJava.dependsOn(processResources)
