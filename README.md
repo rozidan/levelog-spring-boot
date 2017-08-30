@@ -1,8 +1,8 @@
-# Spring Boot Levelog Starter
-> A Spring Boot starter that let you set the log level for your application at runtime.
+# Spring Boot Levelog
+> A Spring Boot project that let you set the log level for your application at runtime.
 
-[![Build Status](https://travis-ci.org/rozidan/levelog-spring-boot-starter.svg?branch=master)](https://travis-ci.org/rozidan/levelog-spring-boot-starter)
-[![Coverage Status](https://coveralls.io/repos/github/rozidan/levelog-spring-boot-starter/badge.svg?branch=master)](https://coveralls.io/github/rozidan/levelog-spring-boot-starter?branch=master)
+[![Build Status](https://travis-ci.org/rozidan/levelog-spring-boot.svg?branch=master)](https://travis-ci.org/rozidan/levelog-spring-boot)
+[![Coverage Status](https://coveralls.io/repos/github/rozidan/levelog-spring-boot/badge.svg?branch=master)](https://coveralls.io/github/rozidan/levelog-spring-boot?branch=master)
 
 ## Features
 Register the Levelog to your Spring Boot application and allow it to automatically add a
@@ -15,13 +15,13 @@ In order to add logger to your project simply add this dependency to your classp
 ```xml
 <dependency>
     <groupId>com.github.rozidan</groupId>
-    <artifactId>levelog-spring-boot-starter</artifactId>
+    <artifactId>levelog-spring-boot</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
 ```groovy
-compile 'com.github.rozidan:levelog-spring-boot-starter:1.0.0-SNAPSHOT'
+compile 'com.github.rozidan:levelog-spring-boot:1.0.0-SNAPSHOT'
 ```
 
 ## Change the log level
