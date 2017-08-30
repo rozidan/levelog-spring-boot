@@ -32,7 +32,7 @@ apply plugin: 'propdeps-idea'
 apply plugin: 'propdeps-eclipse'
 
 group = 'com.github.rozidan'
-archivesBaseName = 'levelog-spring-boot-starter'
+archivesBaseName = 'levelog-spring-boot'
 sourceCompatibility = 1.8
 bootRepackage.enabled = false
 
