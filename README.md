@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/rozidan/levelog-spring-boot.svg?branch=master)](https://travis-ci.org/rozidan/levelog-spring-boot)
 [![Coverage Status](https://coveralls.io/repos/github/rozidan/levelog-spring-boot/badge.svg?branch=master)](https://coveralls.io/github/rozidan/levelog-spring-boot?branch=master)
+[![License](http://img.shields.io/:license-apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## Features
 Register the Levelog to your Spring Boot application and allow it to automatically add a
