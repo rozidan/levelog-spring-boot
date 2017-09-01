@@ -30,8 +30,12 @@ import java.util.Set;
 @Service
 public class LevelogProvider {
 
+    /**
+     * Validate the message and change log level according to message data.
+     *
+     * @param message The message
+     */
     public void changeLogLevel(Message message) {
-        log.debug(message + "");
         validateMessage(message);
         changeLogLevel(message.getLogLevel(), message.getLoggerName());
         log.info("Log level of '" + message.getLoggerName() + "' is now " + message.getLogLevel());
@@ -41,19 +45,19 @@ public class LevelogProvider {
         LoggingSystem.get(this.getClass().getClassLoader()).setLogLevel(loggerName, logLevel);
     }
 
-    public boolean validateMessage(Message message) {
+    /**
+     * Validate the levelog message.
+     *
+     * @param message The message
+     * @throws ConstraintViolationException If there are validation violations
+     */
+    public void validateMessage(Message message) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Message>> violations = validator.validate(message);
 
-        for (ConstraintViolation<Message> violation : violations) {
-            log.error(violation.getMessage());
-        }
-
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException("Levelog message is not valid", violations);
         }
-
-        return violations.isEmpty();
     }
 }
