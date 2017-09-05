@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2017 Idan Rozenfeld the original author or authors
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,17 @@
  */
 package com.github.rozidan.springboot.levelog;
 
+import org.apache.kafka.common.errors.SerializationException;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 public class LevelogMessageJsonDeserializer extends JsonDeserializer<Message> {
 
+    @Override
+    public Message deserialize(String topic, byte[] data) {
+        try {
+            return super.deserialize(topic, data);
+        } catch (SerializationException ex) {
+            return null;
+        }
+    }
 }

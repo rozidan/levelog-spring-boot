@@ -17,8 +17,10 @@ package com.github.rozidan.springboot.levelog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 @Component
@@ -35,6 +37,9 @@ public class LevelogKafka {
     @KafkaListener(topics = "${levelog.kafka.topic:levelog.t}",
             containerFactory = "${levelog.kafka.container:levelogKafkaContainer}")
     public void changeLogLevel(Message message) {
+        if (message.getLoggerName().equals("root")) {
+            throw new IllegalArgumentException("Cannot change log level of 'root'.");
+        }
         levelogProvider.changeLogLevel(message);
         countDownLatch.countDown();
     }
