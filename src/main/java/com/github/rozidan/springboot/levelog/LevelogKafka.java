@@ -37,9 +37,6 @@ public class LevelogKafka {
     @KafkaListener(topics = "${levelog.kafka.topic:levelog.t}",
             containerFactory = "${levelog.kafka.container:levelogKafkaContainer}")
     public void changeLogLevel(Message message) {
-        if (message.getLoggerName().equals("root")) {
-            throw new IllegalArgumentException("Cannot change log level of 'root'.");
-        }
         levelogProvider.changeLogLevel(message);
         countDownLatch.countDown();
     }

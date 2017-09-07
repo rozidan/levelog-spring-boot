@@ -32,10 +32,6 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.AbstractMessageListenerContainer;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.retry.RetryPolicy;
-import org.springframework.retry.backoff.FixedBackOffPolicy;
-import org.springframework.retry.policy.SimpleRetryPolicy;
-import org.springframework.retry.support.RetryTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,10 +68,7 @@ public class LevelogAutoConfiguration {
         public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> levelogKafkaContainer() {
             ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
             factory.setConsumerFactory(consumerFactory());
-            factory.setRetryTemplate(getRetryTemplate());
             factory.setConcurrency(1);
-            factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.RECORD);
-            factory.getContainerProperties().setAckOnError(false);
             return factory;
         }
 
@@ -88,30 +81,9 @@ public class LevelogAutoConfiguration {
             propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, broker);
             propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
             propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LevelogMessageJsonDeserializer.class);
-            propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-            propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
             propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, appName + " #levelog");
             propsMap.put(ConsumerConfig.CLIENT_ID_CONFIG, appName);
             return propsMap;
-        }
-
-        public RetryPolicy getRetryPolicy() {
-            SimpleRetryPolicy simpleRetryPolicy = new SimpleRetryPolicy();
-            simpleRetryPolicy.setMaxAttempts(6);
-            return simpleRetryPolicy;
-        }
-
-        public FixedBackOffPolicy getBackOffPolicy() {
-            FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
-            backOffPolicy.setBackOffPeriod(300L);
-            return backOffPolicy;
-        }
-
-        public RetryTemplate getRetryTemplate() {
-            RetryTemplate retryTemplate = new RetryTemplate();
-            retryTemplate.setRetryPolicy(getRetryPolicy());
-            retryTemplate.setBackOffPolicy(getBackOffPolicy());
-            return retryTemplate;
         }
     }
 
