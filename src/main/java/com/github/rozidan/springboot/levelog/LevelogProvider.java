@@ -56,12 +56,12 @@ public class LevelogProvider {
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Message>> violations = validator.validate(message);
 
-        if (message.getLoggerName().equals("root")) {
-            throw new IllegalArgumentException("Cannot change log level of 'root'.");
-        }
-
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException("Levelog message is not valid", violations);
+        }
+
+        if (message.getLoggerName().equals("root")) {
+            throw new IllegalArgumentException("Cannot change log level of 'root'.");
         }
     }
 }
