@@ -63,7 +63,7 @@ public class LevelogAutoConfiguration {
             this.appName = appName;
         }
 
-        @ConditionalOnMissingBean
+        @ConditionalOnMissingBean(name = "levelogKafkaContainer")
         @Bean
         public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Message>> levelogKafkaContainer() {
             ConcurrentKafkaListenerContainerFactory<String, Message> factory = new ConcurrentKafkaListenerContainerFactory<>();
