@@ -25,6 +25,17 @@ In order to add logger to your project simply add this dependency to your classp
 compile 'com.github.rozidan:levelog-spring-boot:1.0.0-SNAPSHOT'
 ```
 
+and the sonatype public repository:
+
+
+```groovy
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/groups/public" }
+    ...
+}
+```
+
 ## Change the log level
 ##### KAFKA
 * Enable KAFKA API: `levelog.kafka.enabled = true`.
